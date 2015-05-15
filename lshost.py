@@ -19,7 +19,7 @@ def watch(url, quality):
     except StreamError:
         abort(404)
 
-    return Response(playStreamNonblocking(sd),
+    return Response(playStream(sd),
                     mimetype="video/unknown")
 
 
@@ -38,22 +38,6 @@ def playStream(sd, chunkSize=8192):
                 print("Stream Closed")
                 raise StopIteration
 
-            yield data
-    finally:
-        sd.close()
-
-
-# Different generator to play data
-def playStreamNonblocking(sd):
-    """Generator to return data in the stream reader buffer"""
-    try:
-        while True:
-            # If buffer has been closed
-            if not sd.buffer:
-                raise StopIteration
-            # See livestreamer CircularBuffer
-            # Grab whatever is currently in the buffer and return it.
-            data = sd.buffer.read(block=False)
             yield data
     finally:
         sd.close()
