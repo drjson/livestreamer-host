@@ -2,6 +2,7 @@
 Simple web host for VLC (and others) to open livestreamer urls and read HTTP stream. Allows the user to add TwitchTV, etc streams to a VLC playlist as a Network Stream.
 
 Example URL: http://localhost:5000/w/twitch.tv/monstercat/best
+![Alt text](/screenshot.png?raw=true "Screenshot")
 
 Requires:
 - Python 2.7
