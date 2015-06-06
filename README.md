@@ -19,7 +19,7 @@ Which allows you to create playlists in VLC for quick switching between streams.
 
 ### Requires ###
 - Python 2 (untested on 3)
-- Livestreamer https://github.com/chrippa/livestreamer
+- Livestreamer http://livestreamer.io/
 
          pip install livestreamer
 
