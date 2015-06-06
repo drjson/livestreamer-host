@@ -7,7 +7,7 @@ Example URL: http://localhost:5000/w/twitch.tv/monstercat/best
 Requires:
 - Python 2.7
 - Livestreamer https://github.com/chrippa/livestreamer
-- Flask http://flask.pocoo.org/
+- Bottle http://bottlepy.org/
  
 Instructions:
 - Run server (./lshost.py)
@@ -15,5 +15,16 @@ Instructions:
 - Play the desired streams. Like the CLI livestreamer, it may take a second or two to start the stream.
 - The plugins and quality format are the same as the CLI arguments.
 
+Optional:
+- Install a WSGI server as an alternative to the built in WSGIref server if you want multithreading. (http://bottlepy.org/docs/dev/deployment.html#server-options) Pass it to the server with the --server option.
+- Supply server/port on the command line. Run ./lshost.py --help for options.
+- Wrap the bottle app in a daemon script supplying arguments and server setup to run as a service on a thin device like a pi or router running custom firmware like OpenWRT.
+
+Tested Servers:
+- wsgiref: Works, singlethreaded
+- cherrypy: Works, multithreaded
+- gevent: Works, multithreaded
+- CGI: Works  (uhttpd on OpenWRT)
+
 Known Issues:
-- When closing VLC or stopping a stream in VLC, the server will throw an exception because the client socket has been closed. The server keeps operating normally.
+- Using the default servers, when closing VLC or stopping a stream in VLC, the server will throw an exception because the client socket has been closed. The server keeps operating normally.
