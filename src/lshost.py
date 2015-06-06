@@ -100,7 +100,7 @@ if __name__ == '__main__':
     parser.add_argument('--server',
                         dest='server',
                         action='store',
-                        default='auto',
+                        default='wsgiref',
                         type=str,
                         help="Server Backend")
 
