@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
-
+from argparse import ArgumentParser
 from flask import Flask, Response, abort
 from livestreamer import Livestreamer, StreamError, PluginError, NoPluginError
 
 app = Flask(__name__)
+OPTIONS = {}
 
 
 @app.route('/w/<path:url>/<quality>')
@@ -43,10 +44,16 @@ def playStream(sd, chunkSize=8192):
         sd.close()
 
 
+def setOptions(session):
+    for k, v in OPTIONS.items():
+        session.set_option(k, v)
+
+
 def openStream(url, quality):
     """Open a livestreamer URL and return the stream"""
 
     livestreamer = Livestreamer()
+    setOptions(livestreamer)
 
     try:
         streams = livestreamer.streams(url)
@@ -66,4 +73,18 @@ def openStream(url, quality):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=False, threaded=True)
+    parser = ArgumentParser(
+        description="Livestreamer HTTP Translation Server.")
+    parser.add_argument('--ip', dest='ip',
+                        action='store', default='0.0.0.0',
+                        type=str,  help='IP to host on.')
+    parser.add_argument('--port', dest='port',
+                        action='store', default=5000,
+                        type=int, help='Port to host on.')
+    parser.add_argument('--ringbuffer-size', dest='ringbuffersize',
+                        action='store', default=16777216,
+                        type=int,
+                        help='Internal ring buffer size per stream in bytes.')
+    args = parser.parse_args()
+    OPTIONS['ringbuffer-size'] = args.ringbuffersize
+    app.run(host=args.ip, port=args.port, debug=False, threaded=True)
