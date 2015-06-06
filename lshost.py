@@ -76,22 +76,33 @@ if __name__ == '__main__':
     parser = ArgumentParser(
         description="Livestreamer HTTP Translation Server.")
 
-    parser.add_argument('--ip', dest='ip',
-                        action='store', default='0.0.0.0',
-                        type=str,  help='IP to host on.')
+    parser.add_argument('--ip',
+                        dest='ip',
+                        action='store',
+                        default='0.0.0.0',
+                        type=str,
+                        help='IP to host on.')
 
-    parser.add_argument('--port', dest='port',
-                        action='store', default=5000,
-                        type=int, help='Port to host on.')
+    parser.add_argument('--port',
+                        dest='port',
+                        action='store',
+                        default=5000,
+                        type=int,
+                        help='Port to host on.')
 
-    parser.add_argument('--ringbuffer-size', dest='ringbuffersize',
-                        action='store', default=16777216,
+    parser.add_argument('--ringbuffer-size',
+                        dest='ringbuffersize',
+                        action='store',
+                        default=16777216,
                         type=int,
                         help='Internal ring buffer size per stream in bytes.')
 
-    parser.add_argument('--server', dest='server',
-                        action='store', default='auto',
-                        type=str, help="Server Backend")
+    parser.add_argument('--server',
+                        dest='server',
+                        action='store',
+                        default='auto',
+                        type=str,
+                        help="Server Backend")
 
     args = parser.parse_args()
 
