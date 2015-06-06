@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
-from argparse import ArgumentParser
-from flask import Flask, Response, abort
+from bottle import route, run, abort, Response
 from livestreamer import Livestreamer, StreamError, PluginError, NoPluginError
 
-app = Flask(__name__)
 OPTIONS = {}
 
 
-@app.route('/w/<path:url>/<quality>')
+@route('/w/<url:path>/<quality>')
 def watch(url, quality):
     """Open a stream based on URL/quality and send it back"""
 
@@ -73,18 +71,31 @@ def openStream(url, quality):
 
 
 if __name__ == '__main__':
+    from argparse import ArgumentParser
+
     parser = ArgumentParser(
         description="Livestreamer HTTP Translation Server.")
+
     parser.add_argument('--ip', dest='ip',
                         action='store', default='0.0.0.0',
                         type=str,  help='IP to host on.')
+
     parser.add_argument('--port', dest='port',
                         action='store', default=5000,
                         type=int, help='Port to host on.')
+
     parser.add_argument('--ringbuffer-size', dest='ringbuffersize',
                         action='store', default=16777216,
                         type=int,
                         help='Internal ring buffer size per stream in bytes.')
+
+    parser.add_argument('--server', dest='server',
+                        action='store', default='auto',
+                        type=str, help="Server Backend")
+
     args = parser.parse_args()
+
+    # TODO Update method for passing ring buffer size.
     OPTIONS['ringbuffer-size'] = args.ringbuffersize
-    app.run(host=args.ip, port=args.port, debug=False, threaded=True)
+
+    run(host=args.ip, port=args.port, server=args.server)
