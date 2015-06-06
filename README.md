@@ -20,5 +20,11 @@ Optional:
 - Supply server/port on the command line. Run ./lshost.py --help for options.
 - Wrap the bottle app in a daemon script supplying arguments and server setup to run as a service on a thin device like a pi or router running custom firmware like OpenWRT.
 
+Tested Servers:
+- wsgiref: Works, singlethreaded
+- cherrypy: Works, multithreaded
+- CGI: Works  (uhttpd on OpenWRT)
+- gevent: Doesn't work, function parameter incompatibility on ssl socket call from Livestreamer to Web.
+
 Known Issues:
 - Using the default servers, when closing VLC or stopping a stream in VLC, the server will throw an exception because the client socket has been closed. The server keeps operating normally.
